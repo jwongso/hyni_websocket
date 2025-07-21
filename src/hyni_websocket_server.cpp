@@ -130,10 +130,12 @@ public:
      * @param transcription The transcribed text to broadcast
      * @param session_id Session identifier
      * @param confidence Confidence score
+     * @param type Type of transcribed text, can be none, partial or final
      */
     void broadcast(const std::string& transcription,
                    const std::string& session_id,
-                   float confidence) {
+                   float confidence,
+                   const std::string& type) {
         if (transcription.empty()) return;
 
         auto json_message = m_json_template;
@@ -146,6 +148,8 @@ public:
         if (confidence > 0.0f) {
             json_message["confidence"] = confidence;
         }
+
+        json_message["type"] = type;
 
         json_message["timestamp"] =
             std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -255,7 +259,8 @@ void hyni_websocket_server::queue_transcription(const std::string& transcription
 
 void hyni_websocket_server::queue_transcription(const std::string& transcription,
                                            const std::string& session_id,
-                                           float confidence) {
+                                           float confidence,
+                                           const std::string& state) {
     if (!m_queue) return;
 
     // Create enhanced JSON message
@@ -270,6 +275,8 @@ void hyni_websocket_server::queue_transcription(const std::string& transcription
     if (confidence > 0.0f) {
         json_message["confidence"] = confidence;
     }
+
+    json_message["state"] = state;
 
     json_message["timestamp"] = std::chrono::duration_cast<std::chrono::milliseconds>(
                                     std::chrono::system_clock::now().time_since_epoch()).count();

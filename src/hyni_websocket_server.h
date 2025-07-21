@@ -57,6 +57,7 @@ using tcp = net::ip::tcp;
  *   "content": "transcribed text here",
  *   "session_id": "optional_session_id",
  *   "confidence": 0.95
+ *   "state": "none|partial|final"
  * }
  * ```
  *
@@ -265,13 +266,15 @@ public:
      * @param transcription Transcribed text to broadcast
      * @param session_id Session identifier for the transcription
      * @param confidence Confidence score (0.0 to 1.0)
+     * @param state State of transcription text (none, partial, or final)
      *
      * Enhanced version of queue_transcription that includes metadata
      * in the broadcasted message.
      */
     void queue_transcription(const std::string& transcription,
                              const std::string& session_id,
-                             float confidence = 0.0f);
+                             float confidence = 0.0f,
+                             const std::string& state = "none");
 
     /**
      * @brief Sets callback for processing received audio data
