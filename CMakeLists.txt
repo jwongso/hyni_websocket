@@ -115,8 +115,6 @@ add_library(${PROJECT_NAME} STATIC
     src/hyni_audio_data.h
 )
 
-message(STATUS "-------------- ${CONCURRENTQUEUE_INCLUDE_DIR}")
-
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
     $<BUILD_INTERFACE:${CONCURRENTQUEUE_INCLUDE_DIR}>
